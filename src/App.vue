@@ -67,16 +67,6 @@
           horizontal
           class="flex-my"
         >
-          <v-btn>
-            <span>Recents</span>
-            <v-icon>mdi-history</v-icon>
-          </v-btn>
-
-          <v-btn>
-            <span>Favorites</span>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
           <v-btn 
           @click.prevent="hiddenAlert"
           style="position: reletive">
@@ -115,7 +105,7 @@
         type="success"
         style="position: fixed; bottom: 0; right: 0; z-index: 222; opacity: 0.8"
       >
-        {{ arrayRandElement }}
+        {{ textAllert }}
       </v-alert>
     </v-card>
 
@@ -132,14 +122,15 @@ export default {
       mini: true,
       activeBtn: 1,
       items: [{ title: "Мой профиль" }, { title: "Выйти" }],
-      showAllert: true,
+      showAllert: false,
       arrMessage: [
         'Вам одобрен кредит!',
         'ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!',
         'АКЦИЯ! "1 + 1 = 3"',
         'Только сегодня, по выгодной цене',
-        'НЕ МОЖЕТ БЫТЬ!!!',
+        'НЕ МОЖЕТ БЫТЬ!!! за 1 руб!',
       ],
+      textAllert: ''
     };
   },
   watch: {
@@ -150,22 +141,22 @@ export default {
   },
   mounted() {
     if (localStorage.drawer || !localStorage.drawer) {
-      this.drawer = localStorage.drawer;
+      this.drawer = JSON.parse('true', localStorage.drawer) ;
     }
     if (localStorage.mini) {
-      this.mini = localStorage.mini;
+      this.mini = JSON.parse('true', localStorage.mini);
     }
   },
-  mathods: {
+  methods: {
     hiddenAlert() {
-      this.showAllert = !this.showAllert;
+      this.textAllert = this.arrMessage[Math.floor(Math.random() * this.arrMessage.length)]
+      this.showAllert = !this.showAllert
+      setTimeout (() => {
+        this.showAllert = false
+      }, 5000)
+      
     },
-  },
-  computed: {
-    arrayRandElement() {
-      return this.arrMessage[Math.floor(Math.random() * this.arrMessage.length)];
-    },
-  },
+  }
 };
 </script>
 
